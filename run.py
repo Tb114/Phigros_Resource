@@ -12,7 +12,7 @@ def download_file_minimal(url, filename=None):
     最简洁版本，只显示百分比进度
     """
     try:        
-        return
+        # return
         # 下载文件
         response = requests.get(url, stream=True)
         response.raise_for_status()
@@ -44,5 +44,5 @@ except Exception as e:
     print(e)
     exit(1)
     
-os.system(f"python Resource.py {file_name}")
+# os.system(f"python Resource.py {file_name}")
 os.system(f"python gameInformation.py {file_name}")
