@@ -39,9 +39,9 @@ def taptap(appid):
         headers={"Content-Type": "application/x-www-form-urlencoded", "User-Agent": "okhttp/3.12.1"}
     )
     r = json.load(conn.getresponse())
-    print(r['data']['apk']['download'])
+    return(r['data']['apk']['download'])
 
 # Phigros app id = 165287
 if __name__ == "__main__":
-    taptap(165287)
+    print(taptap(165287))
 

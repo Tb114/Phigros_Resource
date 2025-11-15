@@ -1,12 +1,10 @@
 import base64
 from concurrent.futures import ThreadPoolExecutor
 from configparser import ConfigParser
-import gc
 from io import BytesIO
 import json
 import os
 from queue import Queue
-import shutil
 import sys
 import threading
 import time
