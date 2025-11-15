@@ -27,7 +27,7 @@ jobs:
 
 
     - name: Run main.py
-      run: timeout 2m python updatefile.py
+      run: timeout 10m python run.py
 
     - name: Commit and push changes
       run: |

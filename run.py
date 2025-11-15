@@ -38,11 +38,12 @@ except Exception as e:
     print(e)
     exit(1)
 try:
-    file_name = "com.PigeonGames.Phigros-136.apk"
-    # file_name = download_file_minimal(apk_download_link)
+    # file_name = "com.PigeonGames.Phigros-136.apk"
+    file_name = download_file_minimal(apk_download_link)
 except Exception as e:
     print(e)
     exit(1)
     
-# os.system(f"python Resource.py {file_name}")
+os.system(f"python Resource.py {file_name}")
 os.system(f"python gameInformation.py {file_name}")
+os.system("python replaceAvatarName.py")
