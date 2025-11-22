@@ -6,6 +6,8 @@ import zipfile
 
 DEBUG = False
 
+
+
 def run(path):
     with open("typetree.json") as f:
         typetree = json.load(f)
@@ -43,8 +45,8 @@ def run(path):
             difficulty.append([song["songsId"]]+song["difficulty"])
             table.append((song["songsId"], song["songsName"], song["composer"], song["illustrator"], *song["charter"]))
 
-    print(difficulty)
-    print(table)
+    # print(difficulty)
+    # print(table)
 
     with open("info/difficulty.tsv", "w", encoding="utf8") as f:
         for item in difficulty:
@@ -71,8 +73,8 @@ def run(path):
     # with open("info/illustration.txt", "w", encoding="utf8") as f:
     #     for item in illustration:
     #         f.write("%s\n" % item)
-    print(single)
-    print(illustration)
+    # print(single)
+    # print(illustration)
 
     D = {}
     for item in Collections.collectionItems:
@@ -86,16 +88,17 @@ def run(path):
             f.write("%s\t%s\t%s\n" % (key, value[0], value[1]))
 
     with open("info/avatar.txt", "w", encoding="utf8") as avatar:
-        # with open("info/tmp.tsv", "w", encoding="utf8") as tmp:
+        with open("info/tmp.tsv", "w", encoding="utf8") as tmp:
             for item in Collections.avatars:
                 avatar.write(item.name)
                 avatar.write("\n")
-                # tmp.write("%s\t%s\n" % (item.name, item.addressableKey[7:]))
+                tmp.write("%s\t%s\n" % (item.name, item.addressableKey[7:]))
 
     with open("info/tips.txt", "w", encoding="utf8") as f:
         for tip in Tips.tips[0].tips:
             f.write(tip)
             f.write("\n")
+
 
 
 if __name__ == "__main__":
@@ -105,6 +108,7 @@ if __name__ == "__main__":
         path = r.stdout[8:-1].decode()
     else:
         path = sys.argv[1]
+    print(get_detailed_version_info(path))
     if not os.path.isdir("info"):
         os.mkdir("info")
     run(path)

@@ -1,8 +1,8 @@
-name: Run updatefile.py daily
+name: Get files daily
 
 on:
   schedule:
-    - cron: '30 8 * * *'
+    - cron: '0 5 * * *'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
