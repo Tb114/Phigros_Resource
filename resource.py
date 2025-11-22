@@ -36,7 +36,7 @@ def io():
             break
         else:
             path, resource = item
-            print(path)
+            # print(path)
             if type(resource) == BytesIO:
                 with resource:
                     with open(path, "wb") as f:
@@ -136,8 +136,8 @@ def run(path):
             del table[i]
         elif table[i][0][:14] == "Assets/Tracks/":
             table[i][0] = table[i][0][14:]
-    for key, value in table:
-        print(key, value)
+    # for key, value in table:
+    #     print(key, value)
 
     global avatar
     if config["avatar"]:
@@ -176,7 +176,7 @@ def run(path):
             del l[index2:len(l) - update.getint("side_story")]
             del l[index1:index2 - update.getint("other_song")]
             del l[:index1 - update.getint("main_story")]
-            print(l)
+            # print(l)
             env = Environment()
             with ZipFile(path) as apk:
                 for key, entry in table:

@@ -5,7 +5,7 @@ import re
 from urllib.parse import unquote, urlparse
 import os
 
-def download_file_minimal(url, filename=None) -> str:
+def download_file_minimal(url, filename=None, retry=False) -> str:
     """
     最简洁版本，只显示百分比进度
     """
@@ -18,7 +18,7 @@ def download_file_minimal(url, filename=None) -> str:
         total_size = int(response.headers.get('content-length', 0))
         downloaded_size = 0
         filename = re.search(r'filename="([^"]+)"',response.headers.get('content-disposition', '')).group(1)
-        if(os.path.exists(filename)): # 本地减少每次下载花费的时间
+        if((not retry) and os.path.exists(filename) and os.stat(filename).st_size >= 1500000000): # 本地减少每次下载花费的时间
             return filename
         with open(filename, 'wb') as file:
             percent_now = 0
@@ -28,9 +28,9 @@ def download_file_minimal(url, filename=None) -> str:
                     downloaded_size += len(chunk)
                     
                     if total_size > 0:
-                        percent = (downloaded_size / total_size) * 100
+                        percent = f'{((downloaded_size / total_size) * 100):.1f}'
                         if(percent_now != percent):
-                            print(f"\r{percent:.1f}%", end='', flush=True)
+                            print(f"\r{percent}%", end='', flush=True)
                             percent_now = percent
             return filename
     except Exception as e:
@@ -51,13 +51,21 @@ version = (file_name.split('-')[1]).split('.')[0]
 try:
     with open('VERSION','r',encoding='UTF-8')as f:
         if(int(f.read()) >= int(version)): pass
-        else: 
-            print('fff')
-            raise Exception()
+        else: raise Exception()
 except:            
     with open("VERSION","w",encoding='UTF-8') as f:
         f.write(version)
         f.close()
-os.system(f"python resource.py {file_name}")
-os.system(f"python gameInformation.py {file_name}")
-os.system("python replaceAvatarName.py")
+try:
+    import gameInformation
+    gameInformation.run(file_name)
+    os.system(f"python resource.py {file_name}")
+    os.system("python replaceAvatarName.py")
+except Exception as e:
+    print(e)
+    print(11111)
+    file_name = download_file_minimal(apk_download_link, retry=True)
+    import gameInformation
+    gameInformation.run(file_name)
+    os.system(f"python resource.py {file_name}")
+    os.system("python replaceAvatarName.py")
