@@ -21,6 +21,7 @@ def download_file_minimal(url, filename=None) -> str:
         if(os.path.exists(filename)): # 本地减少每次下载花费的时间
             return filename
         with open(filename, 'wb') as file:
+            percent_now = 0
             for chunk in response.iter_content(chunk_size=8192):
                 if chunk:
                     file.write(chunk)
@@ -28,7 +29,9 @@ def download_file_minimal(url, filename=None) -> str:
                     
                     if total_size > 0:
                         percent = (downloaded_size / total_size) * 100
-                        print(f"\r{percent:.1f}%", end='', flush=True)
+                        if(percent_now != percent):
+                            print(f"\r{percent:.1f}%", end='', flush=True)
+                            percent_now = percent
             return filename
     except Exception as e:
         raise e

@@ -108,7 +108,6 @@ if __name__ == "__main__":
         path = r.stdout[8:-1].decode()
     else:
         path = sys.argv[1]
-    print(get_detailed_version_info(path))
     if not os.path.isdir("info"):
         os.mkdir("info")
     run(path)
