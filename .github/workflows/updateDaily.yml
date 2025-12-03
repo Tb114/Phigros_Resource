@@ -2,8 +2,8 @@ name: Get files daily
 
 on:
   schedule:
-    - cron: '0 17 * * FRI'
-    - cron: '0 17 * * SAT'
+    - cron: '0 9 * * FRI'
+    - cron: '0 9 * * SAT'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
 
 
     - name: Run main.py
-      run: timeout 20m python run.py
+      run: timeout 15m python run.py
 
     - name: Commit and push changes
       run: |
