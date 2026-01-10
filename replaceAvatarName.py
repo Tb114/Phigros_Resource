@@ -17,12 +17,15 @@ for key, value in mp.items():
     new_file = os.path.join('avatar/', f"{value}.png")
     # 检查原文件是否存在
     if os.path.exists(old_file):
-        if value == 'Cipher1':
+        if old_file == 'avatar/Cipher1.png':
             continue
         try:
+            if(os.path.isfile(new_file)):
+                os.remove(new_file)
             os.rename(old_file, new_file)
             print(f'Rename {old_file} into {new_file}')
         except:
+            print(old_file,new_file)
             pass
     else:
         print(old_file)
