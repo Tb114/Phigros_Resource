@@ -63,7 +63,6 @@ try:
     os.system("python replaceAvatarName.py")
 except Exception as e:
     print(e)
-    print(1111)
     file_name = download_file_minimal(apk_download_link, retry=True)
     os.system(f"python gameInformation.py {file_name}")
     os.system(f"python resource.py {file_name}")

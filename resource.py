@@ -143,7 +143,7 @@ def run(path):
     if config["avatar"]:
         avatar = {}
         try:
-            with open("info/tmp.tsv",encoding="utf8") as f:
+            with open("info/avatar_replace.tsv",encoding="utf8") as f:
                 line = f.readline()[:-1]
                 while line:
                     l = line.split("\t")
