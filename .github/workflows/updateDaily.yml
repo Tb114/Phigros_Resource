@@ -2,9 +2,7 @@ name: Get files daily
 
 on:
   schedule:
-    - cron: '0 9 * * FRI'
-    - cron: '0 9 * * SAT'
-    - cron: '0 9 * * SUN'
+    - cron: '0 9 * * FRI,SAT,SUN'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
