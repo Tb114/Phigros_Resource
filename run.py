@@ -56,14 +56,8 @@ except:
     with open("VERSION","w",encoding='UTF-8') as f:
         f.write(version)
         f.close()
-try:
-    import gameInformation
-    gameInformation.run(file_name)
-    os.system(f"python resource.py {file_name}")
-    os.system("python replaceAvatarName.py")
-except Exception as e:
-    print(e)
-    file_name = download_file_minimal(apk_download_link, retry=True)
-    os.system(f"python gameInformation.py {file_name}")
-    os.system(f"python resource.py {file_name}")
-    os.system("python replaceAvatarName.py")
+
+file_name = download_file_minimal(apk_download_link, retry=True)
+os.system(f"python gameInformation.py {file_name}")
+os.system(f"python resource.py {file_name}")
+os.system("python replaceAvatarName.py")
