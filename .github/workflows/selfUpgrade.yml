@@ -23,7 +23,7 @@ jobs:
         # 仓库信息
         REPO_URL="https://github.com/7aGiven/Phigros_Resource"
         BRANCH="master"
-        FILE_LIST=("main.py" "gameInformation.py" "resource.py", "log.py")
+        FILE_LIST=("gameInformation.py" "resource.py" "log.py")
         TEMP_DIR=$(mktemp -d)
 
         # 临时克隆仓库指定分支
