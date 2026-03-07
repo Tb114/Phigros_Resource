@@ -1,0 +1,68 @@
+name: Upgrade files from repo
+
+on:
+  schedule:
+    - cron: '0 0 * * FRI'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  run-main:
+    runs-on: ubuntu-latest
+    permissions: 
+        contents: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整历史记录以便推送
+
+    - name: Run
+      run: |
+        set -e
+
+        # 仓库信息
+        REPO_URL="https://github.com/7aGiven/Phigros_Resource"
+        BRANCH="master"
+        FILE_LIST=("main.py" "gameInformation.py" "resource.py", "log.py")
+        TEMP_DIR=$(mktemp -d)
+
+        # 临时克隆仓库指定分支
+        git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$TEMP_DIR"
+
+        # 遍历文件列表进行处理
+        for FILE_NAME in "${FILE_LIST[@]}"; do
+            REMOTE_FILE="$TEMP_DIR/$FILE_NAME"
+            LOCAL_FILE="./$FILE_NAME"
+
+            # 检查远程文件是否存在
+            if [[ -f "$REMOTE_FILE" ]]; then
+                # 比较文件差异，如果本地不存在或哈希值不同则覆盖
+                if [[ ! -f "$LOCAL_FILE" ]] || ! cmp -s "$REMOTE_FILE" "$LOCAL_FILE"; then
+                    echo "覆盖文件: $FILE_NAME"
+                    cp -f "$REMOTE_FILE" "$LOCAL_FILE"
+                else
+                    echo "文件一致，跳过: $FILE_NAME"
+                fi
+            else
+                echo "警告: 远程仓库中未找到文件 '$FILE_NAME'，已跳过。"
+            fi
+        done
+
+        # 清理临时目录
+        rm -rf "$TEMP_DIR"
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        if [ -f VERSION ]; then
+          git diff --quiet && git diff --staged --quiet || git commit -m "$(cat VERSION)"
+        else
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update by GitHub Actions"
+        fi
+        git push --all
+        
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false  # 不取消正在运行的，等待完成

@@ -1,7 +1,7 @@
 import os
 
 mp:map = {}
-with open('./info/avatar_replace.tsv','r', encoding='utf-8') as f:
+with open('./info/tmp.tsv','r', encoding='utf-8') as f:
     content = f.read()
     lst:list[str] = content.split('\n')
     

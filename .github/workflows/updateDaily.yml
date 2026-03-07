@@ -1,4 +1,4 @@
-name: Get files daily
+name: Get files at Fri, Sat, Sun
 
 on:
   schedule:
@@ -40,3 +40,7 @@ jobs:
           git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update by GitHub Actions"
         fi
         git push --all
+        
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false  # 不取消正在运行的，等待完成

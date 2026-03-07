@@ -17,17 +17,28 @@ def download_file_with_retry(url, filename, max_retries=3):
             
             with open(filename, 'wb') as file:
                 percent_now = 0
+                in_github_actions = os.environ.get('GITHUB_ACTIONS') == 'true'
+                
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:
                         file.write(chunk)
                         downloaded_size += len(chunk)
                         
                         if total_size > 0:
-                            percent = f'{((downloaded_size / total_size) * 100):.1f}'
-                            if percent_now != percent:
-                                print(f"\r{percent}%", end='', flush=True)
-                                percent_now = percent
-            
+                            percent = ((downloaded_size / total_size) * 100)
+                            percent_str = f'{percent:.1f}'
+                            
+                            if in_github_actions:
+                                # 在GitHub Actions环境中，每隔1个整数百分比输出
+                                if int(percent) != int(percent_now):
+                                    print(f"{int(percent)}%")
+                                    percent_now = percent
+                            else:
+                                # 原逻辑：只有百分比变化时才更新显示
+                                if percent_str != percent_now:
+                                    print(f"\r{percent_str}%", end='', flush=True)
+                                    percent_now = percent_str
+                        
             # 验证文件大小
             actual_size = os.path.getsize(filename)
             if total_size > 0 and actual_size != total_size:
