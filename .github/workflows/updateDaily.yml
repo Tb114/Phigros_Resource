@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install UnityPy fsb5 requests
+        pip install  fsb5 requests UnityPy==1.10.18
 
 
     - name: Run main.py
@@ -40,7 +40,7 @@ jobs:
           git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update by GitHub Actions"
         fi
         git push --all
-        
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false  # 不取消正在运行的，等待完成
